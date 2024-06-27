@@ -1,0 +1,45 @@
+1. User Table
+User_Id (Primary Key)
+User_Type (1 for admin, 2 for customer)
+User_Email (Unique, Not Null)
+name
+Password (Encrypted)
+Address
+Postcode
+City
+Phone
+country
+
+2. Order_Tbl Table
+Order_Id (Primary Key)
+Order_No
+Order_Date
+Order_Total
+User_Id (Foreign Key referencing User table)
+Shipping_Date
+Is_Delivered
+
+3. Order_Details Table
+Order_Details_Id (Primary Key)
+Product_Id (Foreign Key referencing Product table)
+Product_Qty
+Product_Price
+Order_Id (Foreign Key referencing Order_Tbl table)
+Subtotal
+
+4. Product Table
+Product_Id (Primary Key)
+Product_Name
+Product_Desc
+Price
+Stock
+Category_Id (Foreign Key referencing Category table)
+Image1
+Image2
+Image3
+
+5. Category Table
+Category_Id (Primary Key)
+Category_Name
+Category_Image
+Category_Description
