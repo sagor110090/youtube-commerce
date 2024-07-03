@@ -18,7 +18,7 @@ class Table extends DataTableComponent
         'categoriesCreated' => '$refresh',
         'categoriesUpdated' => '$refresh',
         'categoriesDeleted' => '$refresh',
-         'confirmed',
+        'confirmed',
         'cancelled',
     ];
 
@@ -33,36 +33,31 @@ class Table extends DataTableComponent
         $this->setDefaultSort('id', 'desc');
     }
 
-       public function columns(): array
-            {
-                return [
-                    Column::make("Id", "id")
-                        ->sortable(),
+    public function columns(): array
+    {
+        return [
+            Column::make("Id", "id")
+                ->sortable(),
 
             Column::make("Name", "name")->searchable()->sortable(),
-                    Column::make("Updated at", "updated_at")
-                        ->format(function ($value, $row, Column $column) {
-                            return Carbon::parse($value)->diffForHumans();
-                        })
-                        ->sortable(),
+            Column::make("Updated at", "updated_at")
+                ->format(function ($value, $row, Column $column) {
+                    return Carbon::parse($value)->diffForHumans();
+                })
+                ->sortable(),
 
-                    Column::make("Actions")
-                        ->label(
-                            function ($row, Column $column) {
-                                $delete = "<button class=\"rounded-lg bg-red-500 px-4 py-2 text-white mr-2\" wire:click=\"triggerConfirm(" . $row->id . ")\">Delete</button>";
-                                $edit = "<button class=\"rounded-lg bg-blue-500 px-4 py-2 text-white mr-2\" wire:click=\"edit(" . $row->id . ")\">Edit</button>";
-                                if (!$row->is_active) {
-                                    $is_active = "<button class=\"rounded-lg bg-green-500 px-4 py-2 text-white mr-2\" wire:click=\"approve(" . $row->id . ")\">Active</button>";
-                                } else {
-                                    $is_active = "<button class=\"rounded-lg bg-red-500 px-4 py-2 text-white mr-2\" wire:click=\"approve(" . $row->id . ")\">Deactive</button>";
-                                }
-                                // return  $delete;
-                                return $edit . $delete . $is_active;
-                            }
-                        )->html(),
+            Column::make("Actions")
+                ->label(
+                    function ($row, Column $column) {
+                        $delete = "<button class=\"rounded-lg bg-red-500 px-4 py-2 text-white mr-2\" wire:click=\"triggerConfirm(" . $row->id . ")\">Delete</button>";
+                        $edit = "<button class=\"rounded-lg bg-blue-500 px-4 py-2 text-white mr-2\" wire:click=\"edit(" . $row->id . ")\">Edit</button>";
 
-                ];
-            }
+                        return $edit . $delete;
+                    }
+                )->html(),
+
+        ];
+    }
 
 
 
@@ -88,7 +83,7 @@ class Table extends DataTableComponent
     public function confirmed()
     {
         $this->destroy();
-        $this->alert( 'success', 'Deleted successfully.');
+        $this->alert('success', 'Deleted successfully.');
     }
 
     public function cancelled()
@@ -114,5 +109,4 @@ class Table extends DataTableComponent
         ]);
         $this->dispatch('categoriesUpdated');
     }
-
 }
